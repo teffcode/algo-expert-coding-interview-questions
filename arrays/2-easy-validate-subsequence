@@ -1,0 +1,28 @@
+/*
+  VALIDATE SUBSEQUENCE
+
+  Given two non-empty arrays of integers, write a function that determines
+  whether the second array is a subsequence of the first one.
+
+  A subsequence of an array is a set of numbers that aren't necessarily adjacent
+  in the array but that are in the same order as they appear in the array. For
+  instance, the numbers 
+*/
+
+function isValidSubsequence(array, sequence) {
+  let sequenceIndex = 0
+  
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] === sequence[sequenceIndex]) {
+      sequenceIndex++
+    }
+  }
+
+  return sequenceIndex === sequence.length
+}
+
+const array = [5, 1, 22, 25, 6, -1, 8, 10]
+const sequence = [1, 6, -1, 10]
+// In this case, it should be true
+
+isValidSubsequence(array, sequence)
