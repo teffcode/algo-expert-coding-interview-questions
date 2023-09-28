@@ -1,0 +1,32 @@
+/*
+  SORTED SQUARED ARRAY
+  
+  Write a function that takes in a non-empty array of integers that are sorted
+  in ascending order and returns a new array of the same length with the squares
+  of the original integers also sorted in ascending order.
+*/
+
+function sortedSquaredArray (array) {
+  const result = new Array(array.length)
+  let leftPointer = 0
+  let rightPointer = array.length - 1
+
+  for (let i = array.length - 1; i >=0; i--) {
+    const leftSquared = array[leftPointer] ** 2
+    const rightSquared = array[rightPointer] ** 2
+
+    if (leftSquared > rightSquared) {
+      result[i] = leftSquared
+      leftPointer++
+    } else {
+      result[i] = rightSquared
+      rightPointer--
+    }
+  }
+
+  return result
+}
+
+const array = [-10, -5, 0, 5, 10]
+
+sortedSquaredArray(array)
