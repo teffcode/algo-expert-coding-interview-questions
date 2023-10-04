@@ -1,0 +1,48 @@
+/*
+  MAX SUBSET SUM NO ADJACENT
+  
+  Write a function that takes in an array of positive integers and returns the
+  maximum sum of non-adjacent elements in the array.
+  
+  If the input array is empty, the function should return 0.
+*/
+
+function maxSubsetSumNoAdjacent(array) {
+  let prev = 0
+  let current = 0
+  for (let i = 0; i < array.length; i++) {
+    let temp = current
+    if (array[i] + prev > current) {
+      current = array[i] + prev
+    }
+    prev = temp
+  }
+  return current
+}
+
+const array = [75, 105, 120, 75, 90, 135]
+// Output: 330 (75 + 120 + 135)
+
+// const array = [4, 3, 5, 200, 5, 3]
+// Output: 207 (4 + 200 + 3)
+
+maxSubsetSumNoAdjacent(array)
+
+
+/*
+  EXPLANATION:
+
+  prev y current son dos variables que se utilizan para realizar un seguimiento de la suma máxima hasta el momento. prev representa la suma máxima hasta el índice i-2, y current representa la suma máxima hasta el índice i-1.
+  
+  Se inicia un bucle for que recorre el array de entrada.
+  
+  En cada iteración, se usa una variable temporal temp para almacenar el valor actual de current.
+  
+  Se compara la suma de array[i] + prev con el valor actual de current. Si array[i] + prev es mayor que current, se actualiza current con ese valor. Esto significa que estamos considerando agregar el número en la posición i al conjunto, y current ahora representará la suma máxima hasta el índice i.
+  
+  Luego, prev se actualiza con el valor anterior de current (almacenado en temp). Esto es porque, al avanzar al siguiente índice, prev representará la suma máxima hasta el índice i-2 para la siguiente iteración.
+  
+  El bucle continúa hasta que se ha recorrido todo el array.
+  
+  Al final del bucle, la función devuelve current, que contiene la suma máxima que se puede obtener sin sumar números adyacentes.
+*/
