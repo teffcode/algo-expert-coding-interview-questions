@@ -1,0 +1,44 @@
+function numberOfWaysToMakeChange(n, coins) {
+  // Inicializar una tabla para almacenar los resultados
+  const dp = new Array(n + 1).fill(0);
+
+  // Hay una forma de hacer cambio para el valor 0
+  dp[0] = 1;
+
+  // Para cada moneda en las denominaciones
+  for (const coin of coins) {
+    // Actualizar la tabla para valores mayores o iguales a la moneda
+    for (let i = coin; i <= n; i++) {
+      dp[i] += dp[i - coin];
+    }
+  }
+
+  // El resultado está en la última celda de la tabla
+  return dp[n];
+}
+
+const n = 6
+const denoms = [1, 5]
+// Output: 2
+
+// const n = 0
+// const denoms = [2, 3, 4, 7]
+// Output: 1
+
+/*
+
+  Vamos a desglosar cada parte:
+  
+  const dp = new Array(n + 1).fill(0);: Aquí estamos inicializando una tabla dp que tendrá una entrada para cada cantidad desde 0 hasta n. La tabla se inicializa con ceros en todas las posiciones.
+  
+  dp[0] = 1;: Establecemos el valor inicial para la cantidad 0 en 1, ya que hay una única forma de hacer cambio para 0, que es no dar cambio en absoluto.
+  
+  for (const coin of coins) {: Iteramos sobre cada denominación de moneda en el array coins.
+  
+  for (let i = coin; i <= n; i++) {: Iteramos sobre la tabla dp desde la denominación de la moneda actual hasta el valor objetivo n. Esto asegura que estamos considerando todas las cantidades posibles.
+  
+  dp[i] += dp[i - coin];: Actualizamos la tabla sumando el número de formas de hacer cambio para la cantidad i - coin. Esto significa que estamos considerando tanto las formas que involucran la moneda actual como las formas sin usar la moneda actual.
+  
+  return dp[n];: Devolvemos el valor almacenado en la última celda de la tabla, que representa el número total de formas de hacer cambio para la cantidad objetivo n.
+
+*/
