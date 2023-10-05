@@ -1,0 +1,78 @@
+/*
+  Min number of coins for change
+
+  Given an array of positive integers representing coin denominations and a
+  single non-negative integer representing a target amount of
+  money, write a function that returns the smallest number of coins needed to
+  make change for (to sum up to) that target amount using the given coin
+  denominations.
+
+  Note that you have access to an unlimited amount of coins. In other words, if
+  the denominations are, you have access to an unlimited
+  amount of 1s, 5s, and 10s.
+
+  If it's impossible to make change for the target amount, return
+
+  Sample input:
+  "n": 11,
+  "denoms": [1, 5, 10]
+
+  Sample output:
+  3 // 2x1 + 1x5 (2 monedas de 1 y 1 de 5)
+*/
+
+function minCoinsToMakeChange(n, denoms) {
+  // Inicializar un array para almacenar los resultados
+  const dp = new Array(n + 1).fill(Infinity);
+
+  // La cantidad de monedas necesarias para hacer cambio de 0 es 0
+  dp[0] = 0;
+
+  // Para cada denominación de moneda
+  for (const coin of denoms) {
+    // Actualizar el array para valores mayores o iguales a la moneda
+    for (let i = coin; i <= n; i++) {
+      dp[i] = Math.min(dp[i], 1 + dp[i - coin]);
+    }
+  }
+
+  // Si dp[n] sigue siendo infinito, no es posible hacer cambio
+  return dp[n] === Infinity ? -1 : dp[n];
+}
+
+// Ejemplo de uso
+const n = 7;
+const denoms = [1, 5, 10];
+const result = minCoinsToMakeChange(n, denoms);
+console.log(result);  // Salida esperada: 3 (2x1 + 1x5)
+
+
+/*
+  Explanation:
+
+  Inicialización del Array dp:
+  
+    const dp = new Array(n + 1).fill(Infinity);
+    Razón: Creamos un array dp con n + 1 elementos. Usamos Infinity como valor inicial porque en la lógica de programación dinámica, inicializamos valores que representan "sin solución" o "infinitamente grande" antes de comenzar a calcular soluciones reales.
+    
+    dp[0] = 0;
+    Razón: Establecemos el valor de dp[0] en 0. Este es nuestro caso base. No se necesitan monedas para hacer cambio de 0 unidades. Esta elección se hace para asegurar que tengamos un punto de partida para el cálculo.
+
+  Iteración sobre Denominaciones:
+  
+    for (const coin of denoms) {
+    Razón: Iteramos sobre cada denominación de moneda en el array denoms para considerar cada tipo de moneda.
+
+  Actualización del Array para Cada Moneda:
+  
+    for (let i = coin; i <= n; i++) { 
+    Razón: Iteramos sobre el array dp desde la denominación de la moneda (coin) hasta la cantidad objetivo (n). Comenzamos desde coin porque no tiene sentido considerar valores menores que la denominación de la moneda, ya que no podríamos hacer cambio para ellos.
+  
+    dp[i] = Math.min(dp[i], 1 + dp[i - coin]);
+    Razón: Actualizamos la celda dp[i] tomando el mínimo entre su valor actual y 1 + dp[i - coin]. Esto representa la elección óptima entre usar o no usar la moneda actual para hacer cambio de i unidades. La fórmula 1 + dp[i - coin] representa la cantidad de monedas necesarias si usamos la moneda actual.
+
+  Resultado Final:
+
+    return dp[n] === Infinity ? -1 : dp[n];
+    Razón: Verificamos si dp[n] sigue siendo infinito después de todas las iteraciones. Si es así, significa que no es posible hacer cambio para la cantidad dada (n), y devolvemos -1. De lo contrario, devolvemos la cantidad mínima de monedas necesarias.
+*/
